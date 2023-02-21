@@ -8,11 +8,11 @@
         <img 
           :src="`https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`" alt="weather"
         />
-        <p> {{ Math.round(item.main.temp) }}°C </p>
+        <p> {{ Math.round(kToC(item.main.temp)) }}°C </p>
       </div>
-      <p class="weather_card_description">Feels like {{ Math.round(item.main.feels_like) }}°C.</p>
+      <p class="weather_card_description">Feels like {{ Math.round(kToC(item.main.feels_like)) }}°C</p>
       <p class="weather_card_description" v-for="weather in item.weather" :key="weather.id">
-				{{ weather.description }}.
+				{{ capitalize(weather.description)}}
 			</p>
       <hr class="weather_card_divider" />
       <div class="weather_card_other">
@@ -67,7 +67,7 @@
 			</div>
       <img 
         class="weather_card_bg_img" 
-        :src="require(`../assets/img/clear.jpg`)" 
+        :src="require(`../assets/img/${item.weather[0].main.toLowerCase()}.jpg`)" 
         :alt="item.weather[0].main"
       />
     </div>
@@ -82,13 +82,18 @@ export default {
   name: 'WeatherBoard',
   data() {
     return {
-      mock : [
-              {id: 1, city: 'chaves', temp: 23, pressure: 2, humidity: 0.2, visibility: 123, speed: 23}, 
-              {id: 2, city: 'madrid', temp: 12.3, pressure: 2, humidity: 0.2, visibility: 123, speed: 23}
-            ]
+
     }
   },
   props: {
+  },
+  methods: {
+    kToC(v) {
+      return v-273.15
+    },
+    capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1)
+    }
   },
   computed: {
     ...mapGetters({
@@ -104,12 +109,9 @@ export default {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
     justify-content: space-between;
-    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-    width: 620px;
+    width: 800px;
     color: white;
     margin: 0 auto;
   }
@@ -123,12 +125,7 @@ export default {
     display: -ms-flexbox;
 
     display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
     flex-direction: column;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
     justify-content: space-between;
 
     width: 300px;
@@ -138,7 +135,6 @@ export default {
     padding: 20px;
 
     cursor: default;
-    -webkit-animation: fadeIn 0.275s ease-in-out;
     animation: fadeIn 0.275s ease-in-out;
   }
 
@@ -146,8 +142,6 @@ export default {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
     justify-content: center;
     margin: 0 auto;
   }
@@ -163,16 +157,11 @@ export default {
   }
 
   .weather_card_temperature {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
     gap: 10px;
-    -webkit-transition: 0.275s;
-    -o-transition: 0.275s;
     transition: 0.275s;
+    justify-content: center;
+    align-items: center;
   }
 
   .weather_card_temperature p {
@@ -199,18 +188,18 @@ export default {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     margin-top: 10px;
     text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
+    margin-left: 20px;
   }
 
   .weather_card_other div {
     width: 50%;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
+    align-items: center;
     margin-top: 10px;
+    height: 20px;
   }
 
   .weather_card_other svg {
@@ -226,20 +215,21 @@ export default {
     left: 0;
     z-index: -1;
 
-    -o-object-fit: cover;
     object-fit: cover;
 
     width: 100%;
     height: 100%;
 
     opacity: 0.8;
-    -webkit-filter: brightness(80%);
     filter: brightness(80%);
-    -webkit-transition: 0.275s;
-    -o-transition: 0.275s;
     transition: 0.275s;
 
     pointer-events: none;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
   }
 
 </style>

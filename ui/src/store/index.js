@@ -20,12 +20,14 @@ export default createStore({
     mutations: {
         ADD_WEATHER(state, data) {
             state.weather.push(data)
+        },
+        CLEAR_WEATHER(state) {
+            state.weather = [];
         }
     },
     actions: {
-        cheackLocations({dispatch}) {
-            // TODO : check timer and other stuff
-
+        cheackLocations({dispatch, commit}) {
+            commit("CLEAR_WEATHER")
             dispatch("loadData")
         },
         async loadData({state, dispatch}) {
@@ -40,14 +42,13 @@ export default createStore({
                             `http://localhost:3000/api/${location}`
                         )
                         .then( (res) => {
-                            console.log(res.data)
                             commit("ADD_WEATHER", res.data.data)
                         })
                         .catch( (err) => {
-                            console.log('banhada',err)
+                            console.log('err',err)
                         })
             } catch (err) {
-                console.log('mais banhada',err)
+                console.log('err',err)
             }
         }
     },
