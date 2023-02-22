@@ -106,14 +106,12 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .board {
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     width: 800px;
     color: white;
-    margin: 0 auto;
+    margin: 0px auto;
   }
 
   .weather_card {

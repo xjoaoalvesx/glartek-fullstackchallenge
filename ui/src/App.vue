@@ -1,30 +1,17 @@
 <template>
-  <WeatherBoard/>
+  <router-view />
 </template>
 
 <script>
 
-import WeatherBoard from "./components/WeatherBoard.vue";
-
 export default {
   name: 'App',
   components: {
-    WeatherBoard
   },
   data() {
     return {
-      timer: null
+      
     }
-  },
-  mounted() {
-    this.$store.dispatch("cheackLocations")
-    this.timer = setInterval(() => {
-      this.$store.dispatch("cheackLocations")
-    }, 1800 * 1000)
-    
-  },
-  beforeMount() {
-    clearInterval(this.timer)
   }
 }
 </script>
